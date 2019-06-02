@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Student Courses</title>
+     <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Raleway|Roboto+Slab" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+      <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+      <script rel="text/javascript"  src="{{url_for('static',filename='js/jquery.js')}}"></script>
+      <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+      <script rel="text/javascript"  src="{{url_for('static',filename='js/bootstrap.js')}}"></script>
+    <style>
+.txtb{
+  display: block;
+  box-sizing: border-box;
+  width: 240px;
+  background: #ffffff28;
+  border: 1px solid black;
+  padding: 10px 20px;
+  color: black;
+  outline: none;
+  margin: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+  }
+
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: black;
+  text-align: center;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+.Raleway{font-family: 'Raleway', sans-serif;}
+.Roboto{font-family: 'Roboto Slab', serif;}
+.Noto{font-family: 'Noto Serif', serif;}
+
+</style>
+</head>
+<body style="  background-color:#f9f7f7">
+<ul style="background-color: #112d4e">
+  <li><a class="active" href="/admin">Homepage</a></li>
+  <li><a href="/admin/manage">Course Management</a></li>
+  <li><a href="/logout">Log out</a></li>
+</ul>
+
+<div>
+    <h1 class="Noto" style="text-align: center;">Hello Administor!<br></h1>
+</div>
+
+
+<div class="container" style="right:150px">
+
+    <div class="container-fluid text-center" style="..." >
+        {% with messages = get_flashed_messages()%}
+            {%if messages%}
+                {%for message in messages%}
+                    <div class = "alert alert-warning alert-dismissible" role = "alert" style="...">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                        {{message}}
+                    </div>
+                {%endfor%}
+            {%endif%}
+        {%endwith%}
+    </div>
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+  Add Courses
+</button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#assignModal">
+  Assign Project
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="width:600px; height:900px">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add Courses</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form class="login-form"  method="POST">
+            <div align="center">
+                <p>Course id:</p>
+                <input class="txtb" name = "course_id" type="text" placeholder="ID" required>
+                <p>Course Name:</p>
+                <input class="txtb" name = "course_name" type="text" placeholder="Name" required>
+                <p>Course Description:</p>
+                <input class="txtb" name = 'course_description' type="text" placeholder="Description" required>
+                <p>Section number:</p>
+                <input class="txtb" name = 'sec_no' type="number" placeholder="Section" required>
+                <p>Course type:</p>
+                <select class = "txtb text-center" name="type">
+                     <option value= "null" selected>---</option>
+                    <option value="Reg">Regular</option>
+                    <option value="Cap">Capstone</option>
+                </select>
+                <p>Assign Professor:</p>
+                <select class = "txtb text-center" name="pro">
+                     <option value= "null" selected>---</option>
+                    {%for row in pro%}
+                        <option value="{{row[1]}}">{{row[0]}}</option>
+                    {%endfor%}
+                </select>
+                <p>Course Limit:</p>
+                <input class="txtb" name = 'course_limit' type="number" placeholder="Limit" required>
+
+                <input class="btn btn-primary" type="submit" name="add" value="add">
+            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="width:500px; height:400px">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assignModalLabel"> Assign Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form class="login-form"  method="POST">
+            <div align="center">
+                <p>Choose a Course</p>
+                <select class = "txtb text-center" name="course_info">
+                    <option value= "null" selected>---</option>
+                    {%for row in Cap_professors%}
+                        <option value="{{row[0]}}#{{row[1]}}#{{row[2]}}">{{row[0]}} Section:{{row[1]}}</option>
+                    {%endfor%}
+                </select>
+                <p>Project number:</p>
+                <input class="txtb" name = 'project_id' type="number" placeholder="Project ID" required>
+
+                <input class="btn btn-info" type="submit" name="Assign_project" value="Assign">
+            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#dropModal">
+  Remove Courses
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="dropModal" tabindex="-1" role="dialog" aria-labelledby="dropModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="width:500px; height:400px">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dropModalLabel">Remove Courses</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form class="login-form"  method="POST">
+            <div align="center">
+                <h5 style="width: 450px">You can only drop a course which assigned professor has more than one teaching courses</h5>
+                <p>Choose one course:</p>
+                <select class = "txtb text-center" name="drop">
+                    <option value= "null" selected>---</option>
+                    {%for row in sec%}
+                        <option value="{{row[0]}}#{{row[1]}}">{{row[0]}} section{{row[1]}}</option>
+                    {%endfor%}
+                </select>
+
+                <input class="btn btn-danger" type="submit" name="remove" value="remove">
+            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#enrollModal">
+  Enroll Student
+</button>
+
+    <div class="modal fade" id="enrollModal" tabindex="-1" role="dialog" aria-labelledby="enrollModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="width:500px; height:400px">
+      <div class="modal-header">
+        <h5 class="modal-title" id="enrollModalLabel"> Enroll Student</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form class="login-form"  method="POST">
+            <div align="center">
+                <p>Choose a student</p>
+                <select class = "txtb text-center" name="student">
+                    <option value= "null" selected>---</option>
+                    {%for row in stu%}
+                        <option value="{{row[1]}}">{{row[0]}} Email:{{row[1]}}</option>
+                    {%endfor%}
+                </select>
+                <p>Choose a Course:</p>
+                <select class = "txtb text-center" name="course_select">
+                    <option value= "null" selected>---</option>
+                    {%for row in all_Sec%}
+                        <option value="{{row[0]}}#{{row[1]}}">{{row[0]}} section:{{row[1]}}</option>
+                    {%endfor%}
+                </select>
+
+                <input class="btn btn-info" type="submit" name="enroll" value="enroll">
+            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+            {%if len_reg != 0%}
+        <h2>Course Section Information</h2>
+        <table class="table">
+            <tr>
+                <th>course_id</th>
+                <th>course_name</th>
+                <th>course_section</th>
+                <th>section_type</th>
+                <th>section_limit</th>
+                <th>Professor_name</th>
+                <th>Professor_email</th>
+            </tr>
+             {% for row in course %}
+                <tr>
+                    <td> {{ row[0] }} </td>
+                    <td> {{ row[1] }} </td>
+                    <td> {{ row[2] }} </td>
+                    <td> {{ row[3] }} </td>
+                    <td> {{ row[4] }} </td>
+                    <td> {{ row[5] }} </td>
+                    <td> {{ row[6] }} </td>
+                </tr>
+             {% endfor %}
+        </table>
+            {%else%}
+            <h2>You have no regular sections<br><br></h2>
+            {%endif%}
+        </div>
+
+</body>
+</html>

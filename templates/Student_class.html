@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Courses</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Raleway|Roboto+Slab" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+    <script rel="text/javascript"  src="{{url_for('static',filename='js/jquery.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+    <script rel="text/javascript"  src="{{url_for('static',filename='js/bootstrap.js')}}"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">    <style>
+
+    <style>
+.txtb{
+  display: block;
+  box-sizing: border-box;
+  width: 240px;
+  background: #ffffff28;
+  border: 1px solid black;
+  padding: 10px 20px;
+  color: black;
+  outline: none;
+  margin: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+  }
+
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: black;
+  text-align: center;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+.Raleway{font-family: 'Raleway', sans-serif;}
+.Roboto{font-family: 'Roboto Slab', serif;}
+.Noto{font-family: 'Noto Serif', serif;}
+
+</style>
+</head>
+<body style="  background-color:#f9f7f7">
+
+<ul style="background-color: #112d4e">
+  <li><a class="active" href="/student">Homepage</a></li>
+  <li><a href="/student/student_info">Basic Information</a></li>
+  <li><a href="/student/student_courses">Courses</a></li>
+  <li><a href="/logout">Log out</a></li>
+</ul>
+<div>
+    <h1 class="Noto" style="text-align: center;">Hello! {{stu}}<br><br></h1>
+</div>
+<div class="container" style="right:150px">
+
+    {%if len_reg != 0%}
+    <h2>
+        Regular course information <i class="fas fa-angle-down" onclick="Regular()" style="cursor: pointer"></i>
+    </h2>
+    <div class="container" style="right:150px; display:none" id="regular">
+    <table class="table">
+        <tr>
+            <th>course_id</th>
+            <th>course_section</th>
+            <th>course_description</th>
+            <th>Professor_name</th>
+            <th>Professor_email</th>
+            <th>Professor_office_address</th>
+            <th>Letter Grade</th>
+        </tr>
+         {% for row in reg %}
+            <tr>
+                <td> {{ row[0] }} </td>
+                <td> {{ row[1] }} </td>
+                <td> {{ row[2] }} </td>
+                <td> {{ row[3] }} </td>
+                <td> {{ row[4] }} </td>
+                <td> {{ row[5] }} </td>
+                {% for grade in letter_grade %}
+                    {% if grade[0] == row[0] %}
+                        {% if grade[1] == row[1] %}
+                            <td> {{ grade[2] }} </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+            </tr>
+         {% endfor %}
+    </table>
+        {%else%}
+        <h2>You have no regular sections<br><br></h2>
+        {%endif%}
+    </div>
+
+        {%if len_cap != 0%}
+    <br>
+    <h2>
+        Capstone course information <i class="fas fa-angle-down" onclick="Capstone()" style="cursor: pointer"></i>
+    </h2>
+    <div class="container" style="right:150px; display:none" id="capstone">
+    <table class="table">
+        <tr>
+            <th>course_id</th>
+            <th>course_section</th>
+            <th>Capstone Team ID</th>
+            <th>course_description</th>
+            <th>sponsor_name</th>
+            <th>sponsor_email</th>
+            <th>sponsor_office_address</th>
+            <th>letter grade</th>
+        </tr>
+         {% for row in cap %}
+            <tr>
+                <td> {{ row[0] }} </td>
+                <td> {{ row[1] }} </td>
+                <td> {{ row[2] }} </td>
+                <td> {{ row[3] }} </td>
+                <td> {{ row[4] }} </td>
+                <td> {{ row[5] }} </td>
+                <td> {{ row[6] }} </td>
+                {% for grade in letter_grade %}
+                    {% if grade[0] == row[0] %}
+                        {% if grade[1] == row[1] %}
+                            <td> {{ grade[2] }} </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+         {% endfor %}
+    </table>
+
+
+    {%if team_mem_null == 0%}
+    <h2><br>Your Capstone course Teammates</h2>
+    {% for a in range(i) %}
+    <table class="table">
+        <tr>
+            <th>course_id</th>
+            <th>course_section</th>
+            <th>team_id</th>
+            <th>team_member_name</th>
+            <th>team_member_email</th>
+        </tr>
+
+             {% for row in cap_team[a]%}
+             <tr>
+                 <td> {{cap[a][0]}}</td>
+                 <td> {{cap[a][1]}}</td>
+                 <td> {{row[2]}}</td>
+                 <td> {{ row[0] }} </td>
+                 <td> {{ row[1] }} </td>
+            </tr>
+             {% endfor %}
+
+     </table>
+    <br>
+        {%endfor%}
+        {%else%}
+        <h2>You have no teammate in Capstone section<br><br></h2>
+        {%endif%}
+
+    {%else%}
+    <h2>You have no capstone sections<br><br></h2>
+    {%endif%}
+    </div>
+    <br>
+    <h2>
+        Your Assignment information <i class="fas fa-angle-down" onclick="Assignment()" style="cursor: pointer"></i>
+    </h2>
+    <div class="container" style="right:150px; display:none" id="Assignment">
+        <br>
+         <h2>
+            Homework: <i class="fas fa-angle-down" onclick="Homework()" style="cursor: pointer"></i>
+        </h2>
+        <div class="container" style="right:150px; display:none" id="Homework">
+            <table class="table" id = a>
+                <tr>
+                    <th>course_id</th>
+                    <th>section</th>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>grade</th>
+                    <th>average_grade</th>
+                    <th>highest_grade</th>
+                    <th>lowest_grade</th>
+                </tr>
+         {% for row in all_homeworks %}
+            <tr>
+                <td> {{ row[0] }} </td>
+                <td> {{ row[1] }} </td>
+                <td> {{ row[2] }} </td>
+                <td> {{ row[3] }} </td>
+                <td> {{ row[4] }} </td>
+
+                {% for i in range(a)%}
+                    {%for grade in class_homework_grades[i]%}
+                    {% if grade[0] == row[0]%}
+                        {% if grade[1] == row[1] %}
+                            {% if grade[2] == row[2] %}
+                                <td> {{ grade[3] }} </td>
+                                <td> {{ grade[4] }} </td>
+                                <td> {{ grade[5] }} </td>
+                            {%endif%}
+                        {%endif%}
+                    {%endif%}
+                {%endfor%}
+                {%endfor%}
+
+            </tr>
+         {% endfor %}
+            </table>
+        </div>
+        <br>
+        <h2>
+            Exam: <i class="fas fa-angle-down" onclick="Exam()" style="cursor: pointer"></i>
+        </h2>
+        <div class="container" style="right:150px; display:none" id="Exam">
+                     <table class="table" id = b>
+                <tr>
+                    <th>course_id</th>
+                    <th>section</th>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>grade</th>
+                    <th>average_grade</th>
+                    <th>highest_grade</th>
+                    <th>lowest_grade</th>
+                </tr>
+         {% for row in all_exams %}
+            <tr>
+                <td> {{ row[0] }} </td>
+                <td> {{ row[1] }} </td>
+                <td> {{ row[2] }} </td>
+                <td> {{ row[3] }} </td>
+                <td> {{ row[4] }} </td>
+
+                {% for i in range(b)%}
+                    {% if class_exam_grades[i][0] == row[0]%}
+                        {% if class_exam_grades[i][1] == row[1] %}
+                        <td> {{ class_exam_grades[i][2] }} </td>
+                        <td> {{ class_exam_grades[i][3] }} </td>
+                        <td> {{ class_exam_grades[i][4] }} </td>
+                    {%endif%}
+                        {%endif%}
+                {%endfor%}
+
+            </tr>
+         {% endfor %}
+            </table>
+        </div>
+        <br>
+        <h2>
+            Capstone grade: <i class="fas fa-angle-down" onclick="Capstone_grade()" style="cursor: pointer"></i>
+        </h2>
+        <div class="container" style="right:150px; display:none" id="Capstone_grade">
+            <table class="table" id = c>
+        <tr>
+            <th>course_id</th>
+            <th>section</th>
+            <th>team ID</th>
+            <th>grade</th>
+        </tr>
+         {% for row in stu_cap_grade %}
+            <tr>
+                <td> {{ row[0] }} </td>
+                <td> {{ row[1] }} </td>
+                <td> {{ row[2] }} </td>
+                <td> {{ row[3] }} </td>
+            </tr>
+         {% endfor %}
+    </table>
+        </div>
+    </div>
+
+</div>
+<script>
+function Regular() {
+  var x = document.getElementById("regular");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Capstone() {
+  var x = document.getElementById("capstone");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Assignment() {
+  var x = document.getElementById("Assignment");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Homework() {
+  var x = document.getElementById("Homework");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Exam() {
+  var x = document.getElementById("Exam");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Capstone_grade() {
+  var x = document.getElementById("Capstone_grade");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+</body>
+</html>

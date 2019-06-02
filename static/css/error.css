@@ -1,0 +1,26 @@
+body{
+  margin: 0;
+  padding: 0;
+  background-image:url('Login_background.jpg');
+  top:0px;
+  left:0px;
+  z-index:-1;
+  /*picture Citation: https://news.psu.edu/story/560498/2019/02/26/impact/study-penn-state-contributes-116-billion-pa-economy*/
+  width:100%;
+  height: 100%;
+  background-size:100%;
+  position:fixed;
+}
+.Error{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width:300px;
+    height:100px;
+    margin-left:-150px;
+    margin-top:-200px;
+    border:1px solid #111;
+    text-align:center;
+    border-radius: 25px;
+    background: #b3d9ff;
+    }

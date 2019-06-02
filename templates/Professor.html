@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professor Homepage</title>
+     <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Raleway|Roboto+Slab" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+      <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+      <script rel="text/javascript"  src="{{url_for('static',filename='js/jquery.js')}}"></script>
+      <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+      <script rel="text/javascript"  src="{{url_for('static',filename='js/bootstrap.js')}}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <style>
+.txtb{
+  display: block;
+  box-sizing: border-box;
+  width: 240px;
+  background: #ffffff28;
+  border: 1px solid black;
+  padding: 10px 20px;
+  color: black;
+  outline: none;
+  margin: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+  }
+
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: black;
+  text-align: center;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+.Raleway{font-family: 'Raleway', sans-serif;}
+.Roboto{font-family: 'Roboto Slab', serif;}
+.Noto{font-family: 'Noto Serif', serif;}
+
+</style>
+</head>
+<body style="  background-color:#f9f7f7">
+<ul style="background-color: #112d4e">
+    <li><a class="active" href="/Professor">Homepage</a></li>
+    <li><a href="/Professor/Pro_info">Basic Information</a></li>
+    <li><a href="/Professor/Pro_manage">Course Management</a></li>
+    <li><a href="/logout">Log out</a></li>
+</ul>
+
+<h1 style="
+position: absolute;
+top: 0; bottom: 0; left: 0; right: 0;
+margin: auto;
+width: 800px; height: 100px;
+font-size:500%;
+font-family: 'Anton', sans-serif;
+">Welcome to CanvasPath!</h1>
+
+
+
+</body>
+</html>

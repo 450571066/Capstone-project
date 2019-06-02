@@ -1,0 +1,128 @@
+*{
+  font-family: "montserrat",sans-serif;
+}
+body{
+  margin: 0;
+  padding: 0;
+  background-image:url('Login_background.jpg');
+  top:0px;
+  left:0px;
+  z-index:-1;
+  /*picture Citation: https://news.psu.edu/story/560498/2019/02/26/impact/study-penn-state-contributes-116-billion-pa-economy*/
+  width:100%;
+  height: 100%;
+  background-size:100%;
+  position:fixed;
+}
+.prof-login-box{
+  position: absolute;
+  top: 0%;
+  left: -100%;
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(45deg,#9fbaa8,#31354c);
+  transition: 1s;
+}
+.Stu-login-box{
+  position: absolute;
+  top: 0%;
+  left: -100%;
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(45deg,#ecf0f1,#2980b9);
+  transition: 1s;
+}
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: white;
+  text-align: center;
+}
+.login-form h1{
+  font-weight: 400;
+  margin-top: 0;
+}
+.txtb{
+  display: block;
+  box-sizing: border-box;
+  width: 240px;
+  background: #ffffff28;
+  border: 1px solid white;
+  padding: 10px 20px;
+  color: white;
+  outline: none;
+  margin: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+}
+.login-btn{
+  width: 240px;
+  background: #2c3e50;
+  border: 0;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.prof-hide-login-btn{
+  color: #000;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  cursor: pointer;
+  font-size: 24px;
+  opacity: .7;
+}
+.stu-hide-login-btn{
+  color: #000;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  cursor: pointer;
+  font-size: 24px;
+  opacity: .7;
+}
+.Pro-Login{
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #2ecc71;
+  color: white;
+  border: 2px solid;
+  padding: 10px;
+  cursor: pointer;
+}
+.Stu-Login{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #3498db;
+  color: white;
+  border: 2px solid;
+  padding: 10px;
+  cursor: pointer;
+}
+.Pro-showed{
+  left: 0;
+}
+.Stu-showed{
+  left: 0;
+}
+.Error{
+position: absolute;
+left: 50%;
+top: 50%;
+width:300px;
+height:100px;
+margin-left:-150px;
+margin-top:-200px;
+border:1px solid #111;
+text-align:center;
+border-radius: 25px;
+
+/*citation for lion.png: https://recruitment.giveto.psu.edu*/
+}

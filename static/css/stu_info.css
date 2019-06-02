@@ -1,0 +1,23 @@
+
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: black;
+  text-align: center;
+}
+
+.txtb{
+  display: block;
+  box-sizing: border-box;
+  width: 240px;
+  background: #ffffff28;
+  border: 1px solid white;
+  padding: 10px 20px;
+  color: white;
+  outline: none;
+  margin: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+}

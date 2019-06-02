@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professor Management</title>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Raleway|Roboto+Slab" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+    <script rel="text/javascript"  src="{{url_for('static',filename='js/jquery.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/stu_info.css')}}">
+    <script rel="text/javascript"  src="{{url_for('static',filename='js/bootstrap.js')}}"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">    <style>
+.txtb{
+  display: block;
+  box-sizing: border-box;
+  width: 240px;
+  background: #ffffff28;
+  border: 1px solid black;
+  padding: 10px 20px;
+  color: black;
+  outline: none;
+  margin: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+  }
+
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: black;
+  text-align: center;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+.Raleway{font-family: 'Raleway', sans-serif;}
+.Roboto{font-family: 'Roboto Slab', serif;}
+.Noto{font-family: 'Noto Serif', serif;}
+
+</style>
+</head>
+<body style="  background-color:#f9f7f7">
+<ul style="background-color: #112d4e">
+    <li><a class="active" href="/Professor">Homepage</a></li>
+    <li><a href="/Professor/Pro_info">Basic Information</a></li>
+    <li><a href="/Professor/Pro_manage">Course Management</a></li>
+    <li><a href="/logout">Log out</a></li>
+</ul>
+
+<div>
+    <h1 class="Noto" style="text-align: center;">Hello! {{pro_name}}<br></h1>
+</div>
+
+
+
+
+
+<div class="container" style="right:150px">
+
+    <div class="container-fluid text-center" style="..." >
+            {% with messages = get_flashed_messages()%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <div class = "alert alert-warning alert-dismissible" role = "alert" style="...">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">x</span>
+                            </button>
+                            {{message}}
+                        </div>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+    </div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addHomeworkModal">
+    Add Homeworks
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addExamModal">
+    Add Exam
+    </button>
+
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#submitModal">
+    Submit homework Scores
+    </button>
+
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#examModal">
+    Submit exam Scores
+    </button>
+
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#capModal">
+    Submit Capstone Grade
+    </button>
+
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addteamModal">
+    Add Teams
+    </button>
+
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#teamModal">
+    Organize Teams
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addHomeworkModal" tabindex="-1" role="dialog" aria-labelledby="addHomeworkModalLabel" aria-hidden="true">
+      <div  style="position: fiexd; left:50%; top:40%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:550px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addHomeworkModalLabel">Add Homeworks</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           <form class="login-form"  method="POST">
+                <div align="center">
+                    <p>Choose Course:</p>
+                    <select class = "txtb text-center" name="course">
+                         <option value= "null" selected>---</option>
+                        {%for row in course_pro%}
+                            <option value="{{row[0]}}#{{row[1]}}">{{row[0]}}, section {{row[1]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Homework Description:</p>
+                    <input class="txtb" name = 'hw_description' type="text" placeholder="Description" required>
+                    <p>Homework number:</p>
+                    <input class="txtb" name = 'hw_number' type="number" placeholder="Number" required>
+                    <input class="btn btn-primary" type="submit" name="add_homework" value="Add Homework">
+                </div>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addExamModal" tabindex="-1" role="dialog" aria-labelledby="addExamModalLabel" aria-hidden="true">
+      <div style="position: fiexd; left:50%; top:40%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:550px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addExamModalLabel">Add Exam</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           <form class="login-form"  method="POST">
+                <div align="center">
+                    <p>Choose Course:</p>
+                    <select class = "txtb text-center" name="course">
+                         <option value= "null" selected>---</option>
+                        {%for row in course_pro%}
+                            <option value="{{row[0]}}#{{row[1]}}">{{row[0]}}, section {{row[1]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Exam Description:</p>
+                    <input class="txtb" name = 'exam_description' type="text" placeholder="Description" required>
+                    <p>Exam number:</p>
+                    <input class="txtb" name = 'exam_number' type="number" placeholder="Number" required>
+                    <input class="btn btn-primary" type="submit" name="add_Exam" value="Add Exam">
+                </div>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel" aria-hidden="true">
+      <div style="position: fiexd; left:50%; top:40%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:500px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="submitModalLabel">Submit Homework Scores</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           <form class="login-form"  method="POST">
+                <div align="center">
+                    <p>Choose Homework:</p>
+                    <select class = "txtb text-center" name="submit_homework">
+                         <option value= "null" selected>---</option>
+                        {%for row in course_hw%}
+                            <option value="{{row[0]}}#{{row[1]}}#{{row[2]}}">{{row[0]}}, section {{row[1]}}, homework {{row[2]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Choose Student:</p>
+                    <select class = "txtb text-center" name="choose_student">
+                         <option value= "null" selected>---</option>
+                        {%for row in stu_in_pro%}
+                            <option value="{{row[1]}}#{{row[0]}}">{{row[0]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Homework Score:</p>
+                    <input class="txtb" name = 'hw_grade' type="number" placeholder="Score" required>
+                    <input class="btn btn-primary" type="submit" name="addScore" value="Add Homework Score">
+                </div>
+                </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+        <div class="modal fade" id="examModal" tabindex="-1" role="dialog" aria-labelledby="examModalLabel" aria-hidden="true">
+      <div style="position: fiexd; left:50%; top:40%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:500px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="examModalLabel">Submit exam Scores</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form class="login-form"  method="POST">
+                <div align="center">
+                    <p>Choose Exam:</p>
+                    <select class = "txtb text-center" name="submit_exam">
+                         <option value= "null" selected>---</option>
+                        {%for row in course_exam%}
+                            <option value="{{row[0]}}#{{row[1]}}#{{row[2]}}">{{row[0]}}, section {{row[1]}}, Exam {{row[2]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Choose Student:</p>
+                    <select class = "txtb text-center" name="Ex_choose_student">
+                         <option value= "null" selected>---</option>
+                        {%for row in stu_in_pro%}
+                            <option value="{{row[1]}}#{{row[0]}}">{{row[0]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Exam Score:</p>
+                    <input class="txtb" name = 'exam_grade' type="number" placeholder="Score" required>
+                    <input class="btn btn-primary" type="submit" name="addExScore" value="Add Exam Score">
+                </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+        <div class="modal fade" id="capModal" tabindex="-1" role="dialog" aria-labelledby="capModalLabel" aria-hidden="true">
+      <div style="position: fiexd; left:50%; top:40%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:500px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="capModalLabel">Submit Capstone Grade</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form class="login-form"  method="POST">
+                <div align="center">
+                    <p>Choose Team:</p>
+                    <select class = "txtb text-center" name="cap_team_info">
+                        <option value= "null" selected>---</option>
+                        {%for row in Pro_team_sec%}
+                        <option value="{{row[0]}}#{{row[1]}}#{{row[2]}}">{{row[0]}} section:{{row[1]}} team: {{row[2]}}</option>
+                        {%endfor%}
+                    </select>
+                    <p>Capstone Grade:</p>
+                    <input class="txtb" name = 'cap_grade' type="number" placeholder="Grade" required>
+                    <input class="btn btn-primary" type="submit" name="addCapScore" value="Submit">
+                </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="addteamModal" tabindex="-1" role="dialog" aria-labelledby="addteamModalLabel" aria-hidden="true">
+      <div style="position: fiexd; left:50%; top:40%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:500px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addteamModalLabel">Add Teams</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           <form class="login-form"  method="POST">
+               <h4>Choose Course:</h4>
+                <select class = "txtb text-center" name="course_add_team">
+                    <option value= "null" selected>---</option>
+                    {%for row in Cap_course_pro%}
+                    <option value="{{row[0]}}#{{row[1]}}">{{row[0]}} section:{{row[1]}}</option>
+                    {%endfor%}
+                    </select>
+               <br>
+               <h4>Add team id:</h4>
+               <input class="txtb" name = 'team_id' type="number" placeholder="Team ID" required>
+               <br>
+               <h4>Assign Project:</h4>
+               <select class = "txtb text-center" name="project_no">
+                    <option value= "null" selected>---</option>
+                    {%for row in project_no_pro%}
+                    <option value="{{row[0]}}">{{row[0]}}</option>
+                    {%endfor%}
+               </select>
+               <input class="btn btn-primary" type="submit" name="addTeamID" value="Add Team ID">
+           </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="teamModal" tabindex="-1" role="dialog" aria-labelledby="teamModalLabel" aria-hidden="true">
+      <div style="position: fiexd; left:50%; top:30%; margin-top:-250px; margin-left:-250px;" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:500px; height:800px">
+          <div class="modal-header">
+            <h5 class="modal-title" id="teamModalLabel">Orgnize Teams</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           <form class="login-form"  method="POST">
+               <h4>Choose Students:</h4>
+                <div align="left" style="width:250px; height:300px; overflow: scroll">
+                    {% for row in stu_in_cap %}
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="checkStu" value="{{row[1]}}">{{row[0]}}</label>
+                    </div>
+                    {%endfor%}
+                </div>
+               <br>
+               <h4>Select Section and team:</h4>
+               <select class = "txtb text-center" name="team_info">
+                    <option value= "null" selected>---</option>
+                    {%for row in Pro_team_sec%}
+                    <option value="{{row[0]}}#{{row[1]}}#{{row[2]}}">{{row[0]}} section:{{row[1]}} team: {{row[2]}}</option>
+                    {%endfor%}
+               </select>
+               <br>
+
+               <input class="btn btn-primary" type="submit" name="addToTeam" value="Add">
+           </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>
+        Here's All Your Courses <i class="fas fa-angle-down" onclick="Course()" style="cursor: pointer"></i>
+    </h2>
+
+    <div class="container" style="right:150px" id="course">
+
+        <table class="table">
+            <tr>
+                <th>course_id</th>
+                <th>course_name</th>
+                <th>course_section</th>
+                <th>section_type</th>
+                <th>section_limit</th>
+            </tr>
+             {% for row in pro_course %}
+                <tr>
+                    <td> {{ row[0] }} </td>
+                    <td> {{ row[1] }} </td>
+                    <td> {{ row[2] }} </td>
+                    <td> {{ row[3] }} </td>
+                    <td> {{ row[4] }} </td>
+                </tr>
+             {% endfor %}
+        </table>
+    </div>
+
+    <h2>
+        Here's All Students in Your Courses
+        <i class="fas fa-angle-down" onclick="Student()" style="cursor: pointer"></i>
+    </h2>
+
+
+    <div class="container" id="student" style="right:150px; display:none">
+        {%for a in range(i)%}
+        <table class="table">
+            <tr>
+                <th>Course_ID</th>
+                <th>Course_Section</th>
+                <th>Student_Name</th>
+                <th>Student_Email</th>
+
+            </tr>
+             {% for row in stu_in_course[a] %}
+                <tr>
+                    <td> {{ row[2] }} </td>
+                    <td> {{ row[3] }} </td>
+                    <td> {{ row[0] }} </td>
+                    <td> {{ row[1] }} </td>
+
+                </tr>
+             {% endfor %}
+        </table>
+        <br>
+        {%endfor%}
+    </div>
+
+    <h2>
+        All Students Assignment information
+        <i class="fas fa-angle-down" onclick="Assignment()" style="cursor: pointer"></i>
+    </h2>
+
+
+    <div class="container" style="right:150px; display:none" id="assignment">
+        <br>
+            <h2>
+                Capstone Teams Grade
+                <i class="fas fa-angle-down" onclick="Cap_grade()" style="cursor: pointer"></i>
+            </h2>
+        <div class="container" style="right:150px; display:none" id="Cap_grade">
+        <table class="table">
+            <tr>
+                <th>Capstone Course</th>
+                <th>Capstone Section</th>
+                <th>Capstone group#</th>
+                <th>Grade</th>
+            </tr>
+             {% for row in Cap_grade %}
+                <tr>
+                    <td> {{ row[0] }} </td>
+                    <td> {{ row[1] }} </td>
+                    <td> {{ row[2] }} </td>
+                    <td> {{ row[3] }} </td>
+                </tr>
+             {% endfor %}
+        </table>
+        </div>
+        <br>
+        <h2>
+            Regular Score
+            <i class="fas fa-angle-down" onclick="reg_grade()" style="cursor: pointer"></i>
+        </h2>
+        <div class="container" style="right:150px; display:none" id="reg_grade">
+
+        <table class="table" width="100%", align="ceter">
+            <tr>
+                <th>Homeworks:</th>
+                <th>Exams:</th>
+            </tr>
+            <tr>
+                <td>
+                <table class="table" id = a>
+                    <tr>
+                        <th>Student</th>
+                        <th>course_id</th>
+                        <th>section</th>
+                        <th>#</th>
+                        <th>Grade</th>
+                    </tr>
+                    {%for a in range(i)%}
+                        {% for row in all_homeworks[a] %}
+                    <tr>
+                        <td> {{ row[0] }} </td>
+                        <td> {{ row[1] }} </td>
+                        <td> {{ row[2] }} </td>
+                        <td> {{ row[3] }} </td>
+                        <td> {{ row[4] }} </td>
+                    </tr>
+                    {%endfor%}
+             {% endfor %}
+                </table>
+                </td>
+            <td>
+                <table class="table" id = b>
+            <tr>
+                <th>Student</th>
+                <th>course_id</th>
+                <th>section</th>
+                <th>#</th>
+                <th>grade</th>
+            </tr>
+                    {%for a in range(i)%}
+             {% for row in all_exams[a] %}
+                <tr>
+                    <td> {{ row[0] }} </td>
+                    <td> {{ row[1] }} </td>
+                    <td> {{ row[2] }} </td>
+                    <td> {{ row[3] }} </td>
+                    <td> {{ row[4] }} </td>
+                </tr>
+                    {%endfor%}
+             {% endfor %}
+        </table>
+            </td>
+        </tr>
+        </table>
+                </div>
+    </div>
+
+<script>
+function Course() {
+  var x = document.getElementById("course");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Student() {
+  var x = document.getElementById("student");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Assignment() {
+  var x = document.getElementById("assignment");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function Cap_grade() {
+  var x = document.getElementById("Cap_grade");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function reg_grade() {
+  var x = document.getElementById("reg_grade");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+</div>
+</body>
+</html>

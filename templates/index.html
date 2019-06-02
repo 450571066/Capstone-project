@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>CanvasPath non-Security Login</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  </head>
+  <body>
+    <img src="static/css/lion2.png" class="pic" style="height: 100px width: 100px">
+
+    <div class="Pro-Login"><i class="fas fa-sign-in-alt"></i> I am Professor</div>
+    <div class="Stu-Login"><i class="fas fa-sign-in-alt"></i> &nbspI am Student&nbsp</div>
+
+
+
+    <div class="prof-login-box">
+      <div class="prof-hide-login-btn"><i class="fas fa-times"></i></div>
+    <form class="login-form"  method="POST">
+
+      <h1>Welcome Professor</h1>
+      <div align="center">
+        <input class="txtb" name = "Pro_name" type="text" placeholder="Username" required>
+        <input class="txtb" name = 'Pro_password' type="password" placeholder="Password" required>
+        <input class="login-btn" type="submit" name="" value="Login">
+      </div>
+    </form>
+    </div>
+
+
+    <div class="Stu-login-box">
+      <div class="stu-hide-login-btn"><i class="fas fa-times"></i></div>
+    <form class="login-form" method="POST">
+
+      <h1>Welcome Student</h1>
+      <div align="center">
+        <input class="txtb" name = 'Stu_name' type="text" placeholder="Username" required>
+        <input class="txtb" name = 'Stu_password' type="password"  placeholder="Password" required>
+        <input class="login-btn" type="submit" name="" value="Login">
+      </div>
+    </form>
+    </div>
+
+
+    <script type="text/javascript">
+    $(".Pro-Login").on("click",function(){
+      $(".prof-login-box").toggleClass("Pro-showed");
+    });
+    $(".prof-hide-login-btn").on("click",function(){
+      $(".prof-login-box").toggleClass("Pro-showed");
+    });
+
+    $(".Stu-Login").on("click",function(){
+      $(".Stu-login-box").toggleClass("Stu-showed");
+    });
+    $(".stu-hide-login-btn").on("click",function(){
+      $(".Stu-login-box").toggleClass("Stu-showed");
+    });
+    </script>
+
+  </body>
+</html>
